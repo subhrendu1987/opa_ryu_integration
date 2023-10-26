@@ -14,6 +14,8 @@ sudo mn --topo linear,4 --controller remote,ip=127.0.0.1
 ```
 
 ## Sample Rego Policy
+### Playground link
+(https://play.openpolicyagent.org/p/2v2hWn3g2R)[https://play.openpolicyagent.org/p/2v2hWn3g2R]
 ### Rules
 ```
 package ryu_policy
