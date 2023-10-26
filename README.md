@@ -35,3 +35,17 @@ allow {
     "port": 23
 }
 ```
+
+## Extra
+### View all flows
+```
+for sw in $(ovs-vsctl list-br); do echo "Flows for $sw:"; ovs-ofctl dump-flows $sw; echo ""; done
+```
+### Remove all flows except Controller flows from a particular switch (S1)
+```
+ovs-ofctl dump-flows s1 | grep -v "actions=controller" | awk -F ',' '{print $1}' | awk '{print $NF}' | xargs -I {} ovs-ofctl del-flows s1 cookie={}
+```
+### Remove flows except controller flows for all switches
+```
+for sw in $(ovs-vsctl list-br); do ovs-ofctl dump-flows $sw | grep -v "actions=controller" | awk -F ',' '{print $1}' | awk '{print $NF}' | xargs -I {} ovs-ofctl del-flows $sw cookie={}; done
+```
