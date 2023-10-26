@@ -12,3 +12,24 @@ ryu-manager ./ryu_opa_app.py --observe-links
 ```
 sudo mn --topo linear,4 --controller remote,ip=127.0.0.1
 ```
+
+## Sample Rego Policy
+### Rules
+```
+package ryu_policy
+
+default allow = false
+
+# Allow port 22 and 80
+allow {
+    input.port == 22
+} else {
+    input.port == 80
+}
+```
+### Sample input
+```
+{
+    "port": 23
+}
+```
