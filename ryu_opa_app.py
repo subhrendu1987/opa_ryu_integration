@@ -22,7 +22,6 @@ class OPAIntegratingSwitch(simple_switch_13.SimpleSwitch13):
 		msg = ev.msg
 		ofproto = msg.datapath.ofproto
 		pkt = packet.Packet(msg.data)
-		#eth = pkt.get_protocol(ethernet.ethernet)
 		tcp_pkt = pkt.get_protocol(tcp.tcp)
 		udp_pkt = pkt.get_protocol(udp.udp)
 		port = tcp_pkt.dst_port if tcp_pkt else (udp_pkt.dst_port if udp_pkt else None)
@@ -33,9 +32,7 @@ class OPAIntegratingSwitch(simple_switch_13.SimpleSwitch13):
 			response = requests.post(OPA_URL, headers=headers, data=dt)
 			print(response.text)
 			parsed_data = json.loads(response.text)
-			# Extract the 'allow' value
 			decision = parsed_data["result"]["ryu_policy"]["allow"]
-			#decision = response.json().get('allow', False)
 		else:
 			decision=True
 		if decision:
