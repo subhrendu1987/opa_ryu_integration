@@ -1,4 +1,4 @@
-# opa_ryu_integration
+# Policy integration between OPA and Ryu
 ## Commands
 ### Run OPA
 ```
