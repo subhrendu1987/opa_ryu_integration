@@ -30,11 +30,12 @@ class OPAIntegratingSwitch(simple_switch_13.SimpleSwitch13):
 		if port:
 			# Check with OPA
 			dt=json.dumps({"input": {"port": port}})
-			#print(dt)
 			response = requests.post(OPA_URL, headers=headers, data=dt)
 			print(response.text)
-			decision = response.json().get('allow', False)
-			print(response["input"])
+			parsed_data = json.loads(response.text)
+			# Extract the 'allow' value
+			decision = parsed_data["result"]["ryu_policy"]["allow"]
+			#decision = response.json().get('allow', False)
 		else:
 			decision=True
 		if decision:
