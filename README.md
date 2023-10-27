@@ -43,9 +43,9 @@ for sw in $(ovs-vsctl list-br); do echo "Flows for $sw:"; ovs-ofctl dump-flows $
 ```
 ### Remove all flows except Controller flows from a particular switch (S1)
 ```
-ovs-ofctl dump-flows s1 | grep -vi "actions=controller" | awk -F ' ' '{print $8}'| xargs -I {} ovs-ofctl del-flows s1 {}
+ovs-ofctl dump-flows s1 | grep -vi "actions=controller" | awk -F ' ' '{print $8}'| sed 's/priority=[0-9]*,//g' | xargs -I {} ovs-ofctl del-flows s1 {}
 ```
 ### Remove flows except controller flows for all switches
 ```
-for sw in $(ovs-vsctl list-br); do ovs-ofctl dump-flows $sw | grep -vi "actions=controller" | awk -F ' ' '{print $8}'| xargs -I {} ovs-ofctl del-flows $sw {}; done
+for sw in $(ovs-vsctl list-br); do ovs-ofctl dump-flows $sw | grep -vi "actions=controller" | awk -F ' ' '{print $8}' | sed 's/priority=[0-9]*,//g' | xargs -I {} ovs-ofctl del-flows $sw {}; done
 ```
