@@ -1,6 +1,12 @@
 # Policy integration between OPA and Ryu
 ## Commands
-### Run OPA
+### Setup mininet with Ryu
+```
+cd components; cat ryu-mininet.tar.a? > ryu-mininet.tar
+sudo docker load --input ryu-mininet.tar
+sudo docker tag <Image-ID> ryu-mininet:latest # May not be needed
+```
+### Run OPA with Online Server
 ```
 ./opa run --server --log-format text --set decision_logs.console=true --set bundles.play.polling.long_polling_timeout_seconds=45 --set services.play.url=https://play.openpolicyagent.org --set bundles.play.resource=bundles/WM4kUiAO83
 ```
