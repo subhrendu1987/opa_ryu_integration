@@ -1,11 +1,5 @@
 # Policy integration between OPA and Ryu
 ## Commands
-### Setup mininet with Ryu
-```
-cd components; cat ryu-mininet.tar.a? > ryu-mininet.tar
-sudo docker load --input ryu-mininet.tar
-sudo docker tag <Image-ID> ryu-mininet:latest # May not be needed
-```
 ### Run OPA with Online Server
 ```
 ./opa run --server --log-format text --set decision_logs.console=true --set bundles.play.polling.long_polling_timeout_seconds=45 --set services.play.url=https://play.openpolicyagent.org --set bundles.play.resource=bundles/WM4kUiAO83
@@ -19,6 +13,28 @@ ryu-manager ./ryu_opa_app.py --observe-links
 sudo mn --topo linear,4 --controller remote,ip=127.0.0.1
 ```
 
+## Commands for Dockerized setup
+### Setup mininet with Ryu
+```
+cd components; cat ryu-mininet.tar.a? > ryu-mininet.tar
+sudo docker load --input ryu-mininet.tar
+sudo docker tag <Image-ID> ryu-mininet:latest # May not be needed
+```
+### Run mininet and Ryu
+* Common
+```
+sudo docker compose up -d
+sudo docker exec -it node1 /bin/bash # In a separate terminal-A
+sudo docker exec -it node1 /bin/bash # In a separate terminal-B
+```
+* Term-A
+```
+cd /root/ryu/ryu/app;ryu-manager simple_switch.py
+```
+* Term-B
+```
+mn --topo linear,4 --controller remote,ip=127.0.0.1:6633
+```
 ## Sample Rego Policy
 ### Playground link
 [https://play.openpolicyagent.org/p/2v2hWn3g2R]

@@ -5,25 +5,28 @@ x-default: &default
     context: .
     args:
       user: iwaseyusuke
-  image: iwaseyusuke/ryu-mininet
+  image: ryu-mininet
   tty: true
   privileged: true
   network_mode: "bridge"
   environment:
-   - DISPLAY
+    - DISPLAY=${DISPLAY}
   volumes:
-   - /tmp/.X11-unix:/tmp/.X11-unix
-   - /lib/modules:/lib/modules
-   - ./app:/root/app
+    - /tmp/.X11-unix:/tmp/.X11-unix
+    - /lib/modules:/lib/modules
+    - ./app/ryu_opa_app.py:/root/ryu/ryu/app/ryu_opa_app.py
+  restart: unless-stopped
 
 services:
 
   node1:
     <<: *default
+    container_name: node1
 
   node2:
     <<: *default
+    container_name: node2
 
   node3:
     <<: *default
-
+    container_name: node3
